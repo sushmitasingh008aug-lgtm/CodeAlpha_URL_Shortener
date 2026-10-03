@@ -112,3 +112,40 @@ Flask searches PostgreSQL
         ↓
 Redirects to original URL
 
+Installation and Setup
+1. Clone the Repository
+git clone https://github.com/sushmitasingh008aug-lgtm/CodeAlpha_URL_Shortener.git
+
+Move into the project directory:
+cd CodeAlpha_URL_Shortener
+
+2. Create a Virtual Environment
+python -m venv venv
+
+3. Activate the Virtual Environment
+For Windows:
+venv\Scripts\activate
+
+4. Install Dependencies
+pip install -r requirements.txt
+
+PostgreSQL Configuration
+Install and start PostgreSQL on your system.
+Create a database named:
+url_shortener
+
+Then create the urls table using the SQL provided above.
+Environment Variables
+The application uses a .env file for PostgreSQL connection details.
+Create a .env file in the root directory:
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=url_shortener
+DB_USER=postgres
+DB_PASSWORD=your_postgresql_password
+
+Replace your_postgresql_password with your own PostgreSQL password.
+A .env.example file is included in the repository to show the required environment variable format.
+
+
+

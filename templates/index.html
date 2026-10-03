@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>URL Shortener</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>URL Shortener</h1>
+
+        <p class="subtitle">
+            Convert your long URL into a short URL
+        </p>
+
+        <form id="urlForm">
+
+            <input
+                type="url"
+                id="urlInput"
+                placeholder="Enter your long URL"
+                required
+            >
+
+            <button type="submit">
+                Shorten URL
+            </button>
+
+        </form>
+
+        <div id="result" class="result"></div>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById("urlForm");
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const url = document.getElementById("urlInput").value;
+
+            const result = document.getElementById("result");
+
+            result.innerHTML = "Creating short URL...";
+
+            try {
+
+                const response = await fetch("/shorten", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        url: url
+                    })
+
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+
+                    result.innerHTML = `
+                        <p><strong>Short URL:</strong></p>
+
+                        <a href="${data.short_url}" target="_blank">
+                            ${data.short_url}
+                        </a>
+                    `;
+
+                } else {
+
+                    result.innerHTML = `
+                        <p class="error">
+                            ${data.error}
+                        </p>
+                    `;
+
+                }
+
+            } catch (error) {
+
+                result.innerHTML = `
+                    <p class="error">
+                        Something went wrong.
+                    </p>
+                `;
+
+            }
+
+        });
+
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

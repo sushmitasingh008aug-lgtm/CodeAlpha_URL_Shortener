@@ -1,0 +1,4 @@
+Flask
+flasgger
+psycopg2-binary
+python-dotenv

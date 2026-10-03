@@ -112,7 +112,9 @@ Flask searches PostgreSQL
         ↓
 Redirects to original URL
 
+
 Installation and Setup
+
 1. Clone the Repository
 git clone https://github.com/sushmitasingh008aug-lgtm/CodeAlpha_URL_Shortener.git
 
@@ -131,10 +133,10 @@ pip install -r requirements.txt
 
 PostgreSQL Configuration
 Install and start PostgreSQL on your system.
-Create a database named:
+Create a database named
 url_shortener
+Then create the urls table using the SQL provided below.
 
-Then create the urls table using the SQL provided above.
 Environment Variables
 The application uses a .env file for PostgreSQL connection details.
 Create a .env file in the root directory:
@@ -147,5 +149,68 @@ DB_PASSWORD=your_postgresql_password
 Replace your_postgresql_password with your own PostgreSQL password.
 A .env.example file is included in the repository to show the required environment variable format.
 
+Run the Application
+After completing the setup, run:
+python app.py
+
+The application will start at:
+http://127.0.0.1:5000
+
+Open the URL in your browser to use the URL Shortener.
+Using the Web Application
+1. Open http://127.0.0.1:5000
+2. Enter a long URL.
+3. Click Shorten URL.
+4. A unique short URL will be generated.
+5. Click the generated short URL.
+6. The application redirects to the original URL.
+
+Database
+The project uses PostgreSQL for storing URL mappings.
+Database Name
+url_shortener
+
+URLs Table
+Create the following table:
+CREATE TABLE urls (
+    id SERIAL PRIMARY KEY,
+    original_url TEXT NOT NULL,
+    short_code VARCHAR(20) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+Stored Information
+The table stores:
+- Original URL
+- Short code
+- Creation timestamp
+The short_code field has a UNIQUE constraint to prevent duplicate values.
+
+Swagger API Documentation
+The project uses Flasgger to provide Swagger API documentation.
+After starting the application, open:
+http://127.0.0.1:5000/apidocs/
+
+Swagger can be used to test the API endpoints directly from the browser.
 
 
+API Example
+Request
+POST /shorten
+{
+    "url": "https://www.google.com"
+}
+
+Response
+{
+    "original_url": "https://www.google.com",
+    "short_code": "aB72xK",
+    "short_url": "http://127.0.0.1:5000/aB72xK"
+}
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/shorten` | Creates a short URL |
+| GET | `/<short_code>` | Redirects to the original URL |

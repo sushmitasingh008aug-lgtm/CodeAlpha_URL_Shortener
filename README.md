@@ -21,8 +21,6 @@ It converts long URLs into short, unique links, stores the mappings in a databas
 - [Usage](#-usage)
 - [API Reference](#-api-reference)
 - [Database Schema](#-database-schema)
-- [Troubleshooting](#-troubleshooting)
-- [Future Improvements](#-future-improvements)
 - [Author](#-author)
 
 ---

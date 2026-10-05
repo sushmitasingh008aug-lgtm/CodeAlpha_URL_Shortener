@@ -1,216 +1,269 @@
-# CodeAlpha URL Shortener
+# 🔗 CodeAlpha URL Shortener
 
-A simple URL Shortener web application developed as part of the **CodeAlpha Backend Development Internship**.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-API%20Docs-85EA2D?logo=swagger&logoColor=black)
 
-This project converts long URLs into short, unique URLs and stores the URL mapping in a PostgreSQL database. When a user opens the generated short URL, the application redirects them to the original URL.
+A URL shortener web application built with **Flask** and **PostgreSQL** as part of the **CodeAlpha Backend Development Internship**.
 
----
-
-## Project Overview
-
-The URL Shortener provides both a backend API and a simple web interface for creating shortened URLs.
-
-The backend is developed using **Python Flask**, while **PostgreSQL** is used for storing URL mappings. Swagger is integrated for API documentation and testing.
+It converts long URLs into short, unique links, stores the mappings in a database, and redirects visitors from the short link to the original URL. It includes a REST API, interactive Swagger documentation, and a simple web interface.
 
 ---
 
-## Objectives
+## 📑 Table of Contents
 
-- Create a backend server using Flask.
-- Accept long URLs through an API.
-- Generate unique short codes.
-- Store URL mappings in PostgreSQL.
-- Redirect users from short URLs to original URLs.
-- Provide Swagger API documentation.
-- Provide a simple frontend interface.
-
----
-
-## Features
-
-- Shorten long URLs.
-- Generate unique 6-character short codes.
-- Store URLs in PostgreSQL.
-- Redirect short URLs to original URLs.
-- Collision checking for generated short codes.
-- REST API using Flask.
-- Swagger API documentation.
-- Simple frontend interface.
-- JavaScript-based API requests.
-- Basic error handling.
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [How It Works](#-how-it-works)
+- [Getting Started](#-getting-started)
+- [Usage](#-usage)
+- [API Reference](#-api-reference)
+- [Database Schema](#-database-schema)
+- [Troubleshooting](#-troubleshooting)
+- [Future Improvements](#-future-improvements)
+- [Author](#-author)
 
 ---
 
-## Technologies Used
+## ✨ Features
 
-### Backend
-
-- Python
-- Flask
-- Psycopg2
-- PostgreSQL
-- Python-dotenv
-- Flasgger
-
-### Frontend
-
-- HTML
-- CSS
-- JavaScript
-
-### Tools
-
-- Visual Studio Code
-- PostgreSQL
-- pgAdmin
-- Git
-- GitHub
-- Swagger UI
+- Shorten long URLs through a REST API or web interface
+- Unique 6-character short codes with collision checking
+- Persistent storage in PostgreSQL (with a `UNIQUE` constraint on short codes)
+- Fast redirection from short URL to original URL
+- Interactive Swagger API documentation (Flasgger)
+- Lightweight HTML/CSS/JavaScript frontend
+- Basic error handling
 
 ---
 
-## Project Structure
+## 🛠 Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Backend** | Python, Flask, Psycopg2, Python-dotenv, Flasgger |
+| **Database** | PostgreSQL (managed with pgAdmin) |
+| **Frontend** | HTML, CSS, JavaScript |
+| **Tools** | VS Code, Git, GitHub, Swagger UI |
+
+---
+
+## 📁 Project Structure
 
 ```text
-CodeAlpha_url_shortener/
+CodeAlpha_URL_Shortener/
 │
-├── app.py
-├── database.py
-├── routes.py
-├── utils.py
-├── requirements.txt
-├── README.md
+├── app.py              # Application entry point
+├── database.py         # PostgreSQL connection and queries
+├── routes.py           # API and redirect routes
+├── utils.py            # Helper functions (short code generation)
+├── requirements.txt    # Python dependencies
+├── .env.example        # Sample environment variables
 ├── .gitignore
-├── .env.example
+├── README.md
 │
 ├── templates/
-│   └── index.html
+│   └── index.html      # Web interface
 │
 └── static/
     ├── style.css
     └── script.js
+```
 
-How the Application Works
+---
 
-The application follows this flow:
+## ⚙️ How It Works
 
-    User enters a long URL
+```text
+User enters a long URL
         ↓
-Frontend sends POST request
+Frontend sends POST /shorten request
         ↓
-Flask Backend
+Flask backend generates a unique short code
         ↓
-Generate unique short code
+URL mapping is stored in PostgreSQL
         ↓
-Store URL mapping in PostgreSQL
+Short URL is returned to the user
         ↓
-Return short URL
+User opens the short URL (GET /<short_code>)
         ↓
-User opens short URL
+Flask looks up the code in PostgreSQL
         ↓
-Flask searches PostgreSQL
-        ↓
-Redirects to original URL
+User is redirected to the original URL
+```
 
+---
 
-Installation and Setup
+## 🚀 Getting Started
 
-1. Clone the Repository
+### Prerequisites
+
+- Python 3.8 or higher
+- PostgreSQL installed and running
+- Git
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/sushmitasingh008aug-lgtm/CodeAlpha_URL_Shortener.git
-
-Move into the project directory:
 cd CodeAlpha_URL_Shortener
+```
 
-2. Create a Virtual Environment
+### 2. Create and activate a virtual environment
+
+```bash
 python -m venv venv
+```
 
-3. Activate the Virtual Environment
-For Windows:
+**Windows:**
+```bash
 venv\Scripts\activate
+```
 
-4. Install Dependencies
+**macOS / Linux:**
+```bash
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-PostgreSQL Configuration
-Install and start PostgreSQL on your system.
-Create a database named
-url_shortener
-Then create the urls table using the SQL provided below.
+### 4. Set up the database
 
-Environment Variables
-The application uses a .env file for PostgreSQL connection details.
-Create a .env file in the root directory:
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=url_shortener
-DB_USER=postgres
-DB_PASSWORD=your_postgresql_password
+Create a PostgreSQL database named `url_shortener`:
 
-Replace your_postgresql_password with your own PostgreSQL password.
-A .env.example file is included in the repository to show the required environment variable format.
+```sql
+CREATE DATABASE url_shortener;
+```
 
-Run the Application
-After completing the setup, run:
-python app.py
+Then connect to it and create the `urls` table:
 
-The application will start at:
-http://127.0.0.1:5000
-
-Open the URL in your browser to use the URL Shortener.
-Using the Web Application
-1. Open http://127.0.0.1:5000
-2. Enter a long URL.
-3. Click Shorten URL.
-4. A unique short URL will be generated.
-5. Click the generated short URL.
-6. The application redirects to the original URL.
-
-Database
-The project uses PostgreSQL for storing URL mappings.
-Database Name
-url_shortener
-
-URLs Table
-Create the following table:
+```sql
 CREATE TABLE urls (
     id SERIAL PRIMARY KEY,
     original_url TEXT NOT NULL,
     short_code VARCHAR(20) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
-Stored Information
-The table stores:
-- Original URL
-- Short code
-- Creation timestamp
-The short_code field has a UNIQUE constraint to prevent duplicate values.
+### 5. Configure environment variables
 
-Swagger API Documentation
-The project uses Flasgger to provide Swagger API documentation.
-After starting the application, open:
-http://127.0.0.1:5000/apidocs/
+Copy the example file and edit it:
 
-Swagger can be used to test the API endpoints directly from the browser.
+```bash
+cp .env.example .env        # macOS / Linux
+copy .env.example .env      # Windows
+```
 
+Update `.env` with your PostgreSQL details:
 
-API Example
-Request
-POST /shorten
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=url_shortener
+DB_USER=postgres
+DB_PASSWORD=your_postgresql_password
+```
+
+> ⚠️ Never commit your `.env` file. It is already listed in `.gitignore`.
+
+### 6. Run the application
+
+```bash
+python app.py
+```
+
+The app will be available at **http://127.0.0.1:5000**
+
+---
+
+## 💻 Usage
+
+### Web interface
+
+1. Open http://127.0.0.1:5000
+2. Enter a long URL
+3. Click **Shorten URL**
+4. Copy or click the generated short URL to be redirected to the original page
+
+### Swagger documentation
+
+Interactive API docs are available at:
+
+**http://127.0.0.1:5000/apidocs/**
+
+You can test every endpoint directly from the browser.
+
+---
+
+## 📡 API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/shorten` | Creates a short URL |
+| `GET` | `/<short_code>` | Redirects to the original URL |
+
+### `POST /shorten`
+
+**Request body**
+
+```json
 {
     "url": "https://www.google.com"
 }
+```
 
-Response
+**Response**
+
+```json
 {
     "original_url": "https://www.google.com",
     "short_code": "aB72xK",
     "short_url": "http://127.0.0.1:5000/aB72xK"
 }
+```
 
-## API Endpoints
+**Example with cURL**
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/shorten` | Creates a short URL |
-| GET | `/<short_code>` | Redirects to the original URL |
+```bash
+curl -X POST http://127.0.0.1:5000/shorten \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.google.com"}'
+```
+
+### `GET /<short_code>`
+
+Looks up the short code and redirects the browser to the original URL. If the code does not exist, an error response is returned.
+
+---
+
+## 🗄 Database Schema
+
+**Database:** `url_shortener` | **Table:** `urls`
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `SERIAL` | Primary key | Auto-incrementing ID |
+| `original_url` | `TEXT` | `NOT NULL` | The full original URL |
+| `short_code` | `VARCHAR(20)` | `UNIQUE`, `NOT NULL` | Generated short code |
+| `created_at` | `TIMESTAMP` | Default: `CURRENT_TIMESTAMP` | Creation time |
+
+The `UNIQUE` constraint on `short_code` guarantees that no two URLs share the same code.
+
+---
+
+## 👩‍💻 Author
+
+**Sushmita Singh** — [GitHub](https://github.com/sushmitasingh008aug-lgtm)
+
+Developed as part of the **CodeAlpha Backend Development Internship**.
+
+---
+
+⭐ If you found this project useful, consider giving it a star!
